@@ -351,3 +351,6 @@ MigrationBackup/
 
 #idea ide files
 *.idea
+
+#hide all the files that might contain tokens for apis
+*.token
