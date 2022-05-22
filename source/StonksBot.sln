@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StonksBot.Core", "StonksBot
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StonksBot.Core.Test", "StonksBot.Core.Test\StonksBot.Core.Test.csproj", "{81CF69D0-FABE-4354-BF34-77B102E7CFA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleStonksBot", "ConsoleStonksBot\ConsoleStonksBot.csproj", "{090D32B0-6719-49BE-A610-74A80E85BF3E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stonksbot.Integration.Console", "Stonksbot.Integration.Console\Stonksbot.Integration.Console.csproj", "{090D32B0-6719-49BE-A610-74A80E85BF3E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StonksBot.Integration.Discord", "StonksBot.Integration.Discord\StonksBot.Integration.Discord.csproj", "{6D73D3FE-A2F9-463E-8EC1-EBF6E092F969}"
 EndProject

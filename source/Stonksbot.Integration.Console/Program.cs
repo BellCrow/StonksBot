@@ -2,6 +2,8 @@
 
 using StonksBot.Core;
 
+namespace Stonksbot.Integration.Console;
+
 public class MainClass
 {
     public static void Main(string[] args)
@@ -14,7 +16,7 @@ public class MainClass
         var exitCommand = "exit";
         while (command != exitCommand)
         {
-            command = Console.ReadLine();
+            command = System.Console.ReadLine();
             if (string.IsNullOrEmpty(command) || command == exitCommand)
             {
                 continue;
@@ -26,7 +28,7 @@ public class MainClass
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                System.Console.WriteLine(e);
             }
         }
     }
@@ -34,7 +36,7 @@ public class MainClass
     private static Command TranslateCommandString(string command, GameComposer gameComposer)
     {
         var commandSeparator = " ";
-        var commandTokens = command.Split(" ");
+        var commandTokens = command.Split(commandSeparator);
         var userName = commandTokens[0];
         var commandTypeString = commandTokens[1];
         var companyName = commandTokens[2];
