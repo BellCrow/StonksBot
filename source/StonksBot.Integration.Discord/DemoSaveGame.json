@@ -1,0 +1,62 @@
+﻿{
+  "Broker": {
+    "Portfolio": {
+      "Shares": [
+        {
+          "Company": {
+            "Name": "Teslor",
+            "Value": 20
+          },
+          "ShareCount": 100,
+          "Value": 2000
+        },
+        {
+          "Company": {
+            "Name": "Erpple",
+            "Value": 18
+          },
+          "ShareCount": 200,
+          "Value": 3600
+        },
+        {
+          "Company": {
+            "Name": "Macrohard",
+            "Value": 14
+          },
+          "ShareCount": 70,
+          "Value": 980
+        }
+      ]
+    },
+    "TradedCompanies": [
+      {
+        "Name": "Teslor",
+        "Value": 20
+      },
+      {
+        "Name": "Erpple",
+        "Value": 18
+      },
+      {
+        "Name": "Macrohard",
+        "Value": 14
+      }
+    ]
+  },
+  "ShareHolder": [
+    {
+      "Identifier": "Tim",
+      "Portfolio": {
+        "Shares": []
+      },
+      "Money": 3000
+    },
+    {
+      "Identifier": "Debra",
+      "Portfolio": {
+        "Shares": []
+      },
+      "Money": 5000
+    }
+  ]
+}

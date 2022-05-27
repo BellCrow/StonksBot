@@ -1,3 +1,5 @@
+using StonksBot.Core.Entities;
+
 namespace StonksBot.Core.Test;
 
 public class ShareTest
@@ -14,7 +16,7 @@ public class ShareTest
     public void Split_WithEnoughShares_CreatesSplitStackAndReducesOriginal()
     {
         //Arrange
-        var sut = new Share(_testCompany, 20);
+        var sut = new Shares(_testCompany, 20);
         //Act
         var result = sut.Split(10);
         //Assert
@@ -26,7 +28,7 @@ public class ShareTest
     {
         //Arrange
         var initialShareCount = 20;
-        var sut = new Share(_testCompany, initialShareCount);
+        var sut = new Shares(_testCompany, initialShareCount);
         //Act/Assert
         Assert.That(() => sut.Split(initialShareCount), Throws.ArgumentException);
     }
@@ -36,7 +38,7 @@ public class ShareTest
     {
         //Arrange
         var initialShareCount = 20;
-        var sut = new Share(_testCompany, initialShareCount);
+        var sut = new Shares(_testCompany, initialShareCount);
         //Act/Assert
         Assert.That(() => sut.Split(initialShareCount + 1), Throws.ArgumentException);
     }
@@ -46,8 +48,8 @@ public class ShareTest
     {
         //Arrange
         var initialShareCount = 20;
-        var sut = new Share(_testCompany, initialShareCount);
-        var mergee = new Share(_testCompany, initialShareCount);
+        var sut = new Shares(_testCompany, initialShareCount);
+        var mergee = new Shares(_testCompany, initialShareCount);
         //Act
         sut.Merge(mergee);
         //Assert

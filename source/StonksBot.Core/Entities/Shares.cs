@@ -1,13 +1,13 @@
-﻿namespace StonksBot.Core;
+﻿namespace StonksBot.Core.Entities;
 
 /// <summary>
 ///     Represents a single part of a company. One Share object
 ///     can actually represent multiple shares, which can be
 ///     split up into more smaller stacks of shares.
 /// </summary>
-public class Share
+public class Shares
 {
-    public Share(Company issuingCompany, int initialShareCount)
+    public Shares(Company issuingCompany, int initialShareCount)
     {
         if (initialShareCount <= 0) throw new ArgumentOutOfRangeException(nameof(initialShareCount));
         Company = issuingCompany ?? throw new ArgumentNullException(nameof(issuingCompany));
@@ -21,20 +21,20 @@ public class Share
 
     public int Value => Company.Value * ShareCount;
 
-    public Share Split(int count)
+    public Shares Split(int count)
     {
         if (count >= ShareCount)
             throw new ArgumentException(
                 $"Cannot split {count} amount of shares as that is equal to or" +
                 $"more than the amount of available {ShareCount} shares.");
 
-        var ret = new Share(Company, count);
+        var ret = new Shares(Company, count);
         ShareCount -= count;
 
         return ret;
     }
 
-    public void Merge(Share toMerge)
+    public void Merge(Shares toMerge)
     {
         if (toMerge.Company != Company)
             throw new ArgumentException(

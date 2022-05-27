@@ -1,15 +1,17 @@
-﻿namespace StonksBot.Core;
+﻿namespace StonksBot.Core.Entities;
 
 public class Portfolio
 {
-    private readonly List<Share> _shares;
+    private readonly List<Shares> _shares;
 
-    public Portfolio(List<Share> intialShares)
+    public Portfolio(List<Shares> intialShares)
     {
         _shares = intialShares;
     }
 
-    public Share DeductShare(Company company, int amount)
+    public IReadOnlyList<Shares> Shares => _shares;
+
+    public Shares DeductShare(Company company, int amount)
     {
         var shareToDeductFrom = TryGetShare(company);
         if (shareToDeductFrom == null)
@@ -25,13 +27,13 @@ public class Portfolio
         return shareToDeductFrom.Split(amount);
     }
 
-    public void AddShare(Share share)
+    public void AddShare(Shares shares)
     {
-        var possiblyExistingShare = TryGetShare(share.Company);
+        var possiblyExistingShare = TryGetShare(shares.Company);
         if (possiblyExistingShare != null)
-            possiblyExistingShare.Merge(share);
+            possiblyExistingShare.Merge(shares);
         else
-            _shares.Add(share);
+            _shares.Add(shares);
     }
 
     public bool HasShareOfType(Company company)
@@ -39,7 +41,7 @@ public class Portfolio
         return TryGetShare(company) != null;
     }
 
-    public Share TryGetShare(Company company)
+    public Shares TryGetShare(Company company)
     {
         return _shares.FirstOrDefault(iterShare => iterShare.Company == company);
     }

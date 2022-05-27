@@ -1,14 +1,16 @@
-﻿namespace StonksBot.Core;
+﻿using StonksBot.Core.Commands;
 
-public class GameComposer
+namespace StonksBot.Core.Entities;
+
+public class Market
 {
-    public GameComposer(Market market, List<ShareHolder> shareHolder)
+    public Market(Broker broker, List<ShareHolder> shareHolder)
     {
-        Market = market;
+        Broker = broker;
         ShareHolder = shareHolder;
     }
 
-    public Market Market { get; }
+    public Broker Broker { get; }
     public List<ShareHolder> ShareHolder { get; }
 
     public void ExecuteCommand(Command command)
@@ -30,7 +32,7 @@ public class GameComposer
     {
         var sharesToSellToMarket = shareHolder.Portfolio.DeductShare(company, amount);
         var valueForShareSell = sharesToSellToMarket.Value;
-        Market.Portfolio.AddShare(sharesToSellToMarket);
+        Broker.Portfolio.AddShare(sharesToSellToMarket);
         shareHolder.Money += valueForShareSell;
     }
 
@@ -41,7 +43,7 @@ public class GameComposer
             throw new ArgumentException(
                 "The specified shareholder does not have enough money to buy the specified amount of shares");
 
-        var boughtShare = Market.Portfolio.DeductShare(company, amount);
+        var boughtShare = Broker.Portfolio.DeductShare(company, amount);
         shareHolder.Money -= boughtShare.Value;
         shareHolder.Portfolio.AddShare(boughtShare);
     }

@@ -1,4 +1,4 @@
-﻿namespace StonksBot.Core;
+﻿namespace StonksBot.Core.Entities;
 
 public class ShareHolder
 {
@@ -11,6 +11,5 @@ public class ShareHolder
 
     public string Identifier { get; }
     public Portfolio Portfolio { get; }
-
     public int Money { get; set; }
 }

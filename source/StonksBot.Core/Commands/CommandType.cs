@@ -1,4 +1,4 @@
-﻿namespace StonksBot.Core;
+﻿namespace StonksBot.Core.Commands;
 
 public enum CommandType
 {
