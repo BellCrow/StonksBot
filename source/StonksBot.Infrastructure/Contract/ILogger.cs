@@ -1,4 +1,4 @@
-﻿namespace StonksBot.Integration.Discord.Interfaces;
+﻿namespace StonksBot.Infrastructure;
 
 public interface ILogger
 {

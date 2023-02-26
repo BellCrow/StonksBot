@@ -1,6 +1,6 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using StonksBot.Integration.Discord.Interfaces;
+using StonksBot.Infrastructure;
 
 namespace StonksBot.Integration.Discord;
 
