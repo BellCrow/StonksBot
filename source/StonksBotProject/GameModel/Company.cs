@@ -1,8 +1,8 @@
-﻿namespace StonksBotProject
+﻿namespace StonksBotProject.GameModel
 {
     internal class Company
     {
-        public Company(string name,int initialStockCount, int initialPrice)
+        public Company(string name, int initialStockCount, int initialPrice)
         {
             Name = name;
             StockCount = initialStockCount;
@@ -10,7 +10,7 @@
         }
         public void BuyStock(int amount)
         {
-            if(amount > StockCount)
+            if (amount > StockCount)
             {
                 throw new ArgumentException();
             }
@@ -18,7 +18,7 @@
         }
         public void SellStock(int amount)
         {
-            if(amount <= 0)
+            if (amount <= 0)
             {
                 throw new ArgumentException();
             }
@@ -26,7 +26,7 @@
         }
         public void UpdatePrice(int newPrice)
         {
-            if(newPrice < 0)
+            if (newPrice < 0)
             {
                 throw new ArgumentException();
             }

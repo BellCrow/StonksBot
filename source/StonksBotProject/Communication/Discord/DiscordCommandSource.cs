@@ -1,15 +1,11 @@
 ﻿using DSharpPlus;
 using DSharpPlus.EventArgs;
 using Microsoft.Extensions.Hosting;
-using StonksBotProject.CommandCommunication.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using StonksBotProject.Communication.Discord;
+using StonksBotProject.Communication.Interface;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
-namespace StonksBotProject.CommandCommunication.Discord
+namespace StonksBotProject.Communication.Discord
 {
     internal class DiscordCommandSource : IStonksCommandSource
     {
@@ -18,7 +14,7 @@ namespace StonksBotProject.CommandCommunication.Discord
         private DiscordClient _connection;
         private string _discordToken;
         private readonly IHostApplicationLifetime _applicationLifetime;
-        
+
         public DiscordCommandSource(IHostApplicationLifetime applicationLifetime)
         {
             _applicationLifetime = applicationLifetime ?? throw new ArgumentNullException(nameof(applicationLifetime));
@@ -54,10 +50,10 @@ namespace StonksBotProject.CommandCommunication.Discord
              * parse every message as a command and people can still 
              * talk in the channel.
              */
-            var discordCommandRegex = @"(stonks )(.+)";
+            var discordCommandRegex = @"^(stonks )(.+)";
             var regex = new Regex(discordCommandRegex);
             var regexResult = regex.Match(e.Message.Content);
-            
+
             if (e.Message.MessageType != MessageType.Default || !regexResult.Success)
             {
                 return Task.CompletedTask;

@@ -1,27 +1,37 @@
-﻿using System.Collections.Generic;
-using System.Numerics;
-
-namespace StonksBotProject
+﻿namespace StonksBotProject.GameModel
 {
     internal class Player
     {
-        public Player(string name,int initialMoney)
+        #region Private Fields
+
+        private readonly List<(Company company, int amount)> _stocks = new();
+
+        #endregion Private Fields
+
+        #region Public Constructors
+
+        public Player(string identifier, int initialMoney)
         {
-            Name = name;
+            Identifier = identifier;
             Money = initialMoney;
         }
 
+        #endregion Public Constructors
+
+        #region Public Properties
+
+        public string Identifier { get; }
+        public int Money { get; }
         public IReadOnlyList<(Company company, int amount)> Stocks => _stocks;
 
-        private List<(Company company, int amount)> _stocks = new List<(Company company, int amount)>();
+        #endregion Public Properties
 
-        public string Name { get; }
-        public int Money { get; }
+        #region Public Methods
 
         public void AddStock(Company company, int amount)
         {
             var alreadyOwnedStockCount = 0;
-            if (_stocks.Any(s => s.company == company))
+            if(_stocks.Any(s => s.company == company))
             {
                 alreadyOwnedStockCount = Stocks.First(s => s.company == company).amount;
                 _stocks.RemoveAll(t => t.company == company);
@@ -32,7 +42,7 @@ namespace StonksBotProject
         public void SubtractStock(Company company, int amount)
         {
             var alreadyOwnedStockCount = 0;
-            if (_stocks.Any(s => s.company == company))
+            if(_stocks.Any(s => s.company == company))
             {
                 alreadyOwnedStockCount = Stocks.First(s => s.company == company).amount;
             }
@@ -48,5 +58,7 @@ namespace StonksBotProject
             }
             _stocks.Add((company, alreadyOwnedStockCount - amount));
         }
+
+        #endregion Public Methods
     }
 }

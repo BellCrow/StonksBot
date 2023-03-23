@@ -1,4 +1,4 @@
-﻿namespace StonksBotProject
+﻿namespace StonksBotProject.GameModel
 {
     internal class CompanyPriceChanger
     {
@@ -11,7 +11,7 @@
 
         public void Step()
         {
-            foreach(var company in _companies)
+            foreach (var company in _companies)
             {
                 company.UpdatePrice((int)(company.Price * GetPriceMultiplicator()));
             }

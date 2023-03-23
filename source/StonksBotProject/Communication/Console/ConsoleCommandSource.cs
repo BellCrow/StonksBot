@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using StonksBotProject.CommandCommunication.Interface;
+using StonksBotProject.Communication.Interface;
 
-namespace StonksBotProject.CommandCommunication.Console
+namespace StonksBotProject.Communication.Console
 {
     internal class ConsoleStonksCommandSource : IStonksCommandSource
     {
@@ -21,12 +21,12 @@ namespace StonksBotProject.CommandCommunication.Console
         }
         private Task StartReceiving()
         {
-            if(_receiveTask != null)
+            if (_receiveTask != null)
             {
                 return _receiveTask;
             }
 
-            _receiveTask = Task.Run(() => 
+            _receiveTask = Task.Run(() =>
             {
                 /*TODO:
                  * this is just here so that the logging on the console during the 
@@ -37,12 +37,12 @@ namespace StonksBotProject.CommandCommunication.Console
                 {
                     System.Console.Write("Please enter a command:");
                     var commandText = System.Console.ReadLine();
-                    if(commandText == null)
+                    if (commandText == null)
                     {
                         _logger.LogInformation("\nApplication shutdown request registered. Shutting down...");
                         break;
                     }
-                    else if(!string.IsNullOrWhiteSpace(commandText))
+                    else if (!string.IsNullOrWhiteSpace(commandText))
                     {
                         CommandReceived?.Invoke(this, new ConsoleStonksCommand(commandText));
                     }

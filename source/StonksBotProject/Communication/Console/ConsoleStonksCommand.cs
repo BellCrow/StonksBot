@@ -1,6 +1,6 @@
-﻿using StonksBotProject.CommandCommunication.Interface;
+﻿using StonksBotProject.Communication.Interface;
 
-namespace StonksBotProject.CommandCommunication.Console
+namespace StonksBotProject.Communication.Console
 {
     internal class ConsoleStonksCommand : IStonksCommand
     {

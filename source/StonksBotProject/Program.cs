@@ -1,8 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using StonksBotProject.CommandCommunication.Console;
-using StonksBotProject.CommandCommunication.Discord;
-using StonksBotProject.CommandCommunication.Interface;
+using StonksBotProject.Communication.Console;
+using StonksBotProject.Communication.Interface;
+using StonksBotProject.Communication.Discord;
+using StonksBotProject.GameModel;
 
 namespace StonksBotProject
 {
@@ -12,9 +13,12 @@ namespace StonksBotProject
         {
             Host.CreateDefaultBuilder().ConfigureServices((context, services) =>
             {
-                services.AddSingleton<IStonksCommandSource, DiscordCommandSource>();
-                services.AddSingleton<Game>();
+                DiscordIntegrationRegistration.Register(services);
+
+                services.AddSingleton<WorldInterface>();
+
                 services.AddHostedService<GameService>();
+
             }).Build().Run();
         }
     }

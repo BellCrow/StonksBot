@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -7,9 +7,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <AdditionalFiles Remove="C:\dev\repos\StonksBot\source\stylecop.json" />
+  </ItemGroup>
 
   <ItemGroup>
-    <ContentWithTargetPath Include="CommandCommunication\Discord\discordToken.token">
+    <ContentWithTargetPath Include="Communication\Discord\discordToken.token">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		<TargetPath>discordToken.token</TargetPath>
     </ContentWithTargetPath>
@@ -21,16 +24,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="CommandCommunication\Discord\DiscordCommandSource.cs">
+    <Compile Update="Communication\Discord\DiscordCommandSource.cs">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="CommandCommunication\Discord\DiscordStonksCommand.cs">
+    <Compile Update="Communication\Discord\DiscordStonksCommand.cs">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="CommandCommunication\Discord\discordToken.token">
+    <None Update="Communication\Discord\discordToken.token">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -1,4 +1,4 @@
-﻿namespace StonksBotProject.CommandCommunication.Interface
+﻿namespace StonksBotProject.Communication.Interface
 {
     internal interface IStonksCommandSource
     {

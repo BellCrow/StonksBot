@@ -1,12 +1,13 @@
 ﻿using Microsoft.Extensions.Hosting;
+using StonksBotProject.GameModel;
 
 namespace StonksBotProject
 {
     internal class GameService : BackgroundService
     {
-        private readonly Game _game;
+        private readonly WorldInterface _game;
 
-        public GameService(Game game)
+        public GameService(WorldInterface game)
         {
             _game = game;
         }

@@ -1,9 +1,8 @@
-﻿using StonksBotProject.CommandCommunication.Interface;
-using System.Linq;
+﻿using StonksBotProject.Communication.Interface;
 
-namespace StonksBotProject
+namespace StonksBotProject.GameModel
 {
-    internal class Game
+    internal class WorldInterface
     {
         List<Company> _companies = new List<Company>
         {
@@ -20,11 +19,12 @@ namespace StonksBotProject
 
         CompanyPriceChanger _companyPriceChanger;
 
-        public Game(IStonksCommandSource commandSource)
+        public WorldInterface(IStonksCommandSource commandSource, IEventCommunicator eventCommunicator)
         {
             //TODO: make this a dependency
             _companyPriceChanger = new CompanyPriceChanger(_companies);
             _commandSource = commandSource ?? throw new ArgumentNullException(nameof(commandSource));
+            _eventCommunicator = eventCommunicator ?? throw new ArgumentNullException(nameof(eventCommunicator));
             _commandSource.CommandReceived += (_, com) => HandleCommand(com);
         }
 
@@ -35,6 +35,7 @@ namespace StonksBotProject
         const string SellCommand = "sell";
         const string NextCommand = "next";
         private readonly IStonksCommandSource _commandSource;
+        private readonly IEventCommunicator _eventCommunicator;
 
         public void HandleCommand(IStonksCommand command)
         {
@@ -45,15 +46,15 @@ namespace StonksBotProject
             }
             //TODO: replace homebrew command parsing
             var commandToken = tokens.First();
-            switch (commandToken)
+            switch(commandToken)
             {
                 case InspectPlayerCommand:
                     {
                         //assume second argument is present and a player name
                         var playerName = tokens[1];
-                        var player = _player.First(p => p.Name == playerName);
+                        var player = _player.First(p => p.Identifier == playerName);
                         string playerPortfolio = string.Join(", ", player.Stocks.Select(s => $"{s.amount} x {s.company.Name}"));
-                        command.CommunicateResult($"{player.Name}, {player.Money} $ -> {playerPortfolio}");
+                        command.CommunicateResult($"{player.Identifier}, {player.Money} $ -> {playerPortfolio}");
                         break;
                     }
                 case ListCompaniesCommand:
@@ -69,12 +70,12 @@ namespace StonksBotProject
                         //assume third argument is present and a company name
                         var companyName = tokens[2];
                         var stockAmount = int.Parse(tokens[3]);
-                        if (stockAmount <= 0)
+                        if(stockAmount <= 0)
                         {
                             throw new ArgumentException();
                         }
 
-                        var player = _player.First(p => p.Name == playerName);
+                        var player = _player.First(p => p.Identifier == playerName);
                         var companyToBuyFrom = _companies.First(c => c.Name == companyName);
                         companyToBuyFrom.BuyStock(stockAmount);
                         player.AddStock(companyToBuyFrom, stockAmount);
@@ -87,12 +88,12 @@ namespace StonksBotProject
                         //assume third argument is present and a company name
                         var companyName = tokens[2];
                         var stockAmount = int.Parse(tokens[3]);
-                        if (stockAmount <= 0)
+                        if(stockAmount <= 0)
                         {
                             throw new ArgumentException();
                         }
 
-                        var player = _player.First(p => p.Name == playerName);
+                        var player = _player.First(p => p.Identifier == playerName);
                         var companyToSell = _companies.First(c => c.Name == companyName);
                         companyToSell.SellStock(stockAmount);
                         player.SubtractStock(companyToSell, stockAmount);
@@ -105,7 +106,7 @@ namespace StonksBotProject
                     }
                 case ListPlayersCommand:
                     {
-                        var playerList = string.Join(", ", _player.Select(p => p.Name));
+                        var playerList = string.Join(", ", _player.Select(p => p.Identifier));
                         command.CommunicateResult(playerList);
                         break;
                     }

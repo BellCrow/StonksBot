@@ -1,9 +1,9 @@
 ﻿using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
-using StonksBotProject.CommandCommunication.Interface;
+using StonksBotProject.Communication.Interface;
 
-namespace StonksBotProject.CommandCommunication.Discord
+namespace StonksBotProject.Communication.Discord
 {
     internal class DiscordStonksCommand : IStonksCommand
     {
@@ -21,7 +21,7 @@ namespace StonksBotProject.CommandCommunication.Discord
         public string CommandText { get; }
 
         public void CommunicateResult(string result)
-        {            
+        {
             _connection.SendMessageAsync(_channel, result);
         }
     }
