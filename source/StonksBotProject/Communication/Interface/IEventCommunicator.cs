@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace StonksBotProject.Communication.Interface
+﻿namespace StonksBotProject.Communication.Interface
 {
     internal interface IEventCommunicator
     {
+        #region Public Methods
+
         void CommunicateEvent(string eventText);
+
+        #endregion Public Methods
     }
 }

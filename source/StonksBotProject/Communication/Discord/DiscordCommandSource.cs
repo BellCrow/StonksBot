@@ -1,7 +1,6 @@
 ﻿using DSharpPlus;
 using DSharpPlus.EventArgs;
 using Microsoft.Extensions.Hosting;
-using StonksBotProject.Communication.Discord;
 using StonksBotProject.Communication.Interface;
 using System.Text.RegularExpressions;
 
@@ -9,11 +8,17 @@ namespace StonksBotProject.Communication.Discord
 {
     internal class DiscordCommandSource : IStonksCommandSource
     {
-        public event EventHandler<IStonksCommand> CommandReceived;
+        #region Private Fields
+
+        private readonly IHostApplicationLifetime _applicationLifetime;
 
         private DiscordClient _connection;
+
         private string _discordToken;
-        private readonly IHostApplicationLifetime _applicationLifetime;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public DiscordCommandSource(IHostApplicationLifetime applicationLifetime)
         {
@@ -24,10 +29,15 @@ namespace StonksBotProject.Communication.Discord
             _discordToken = File.ReadAllText("discordToken.token");
         }
 
-        private void Disconnect()
-        {
-            _connection.Dispose();
-        }
+        #endregion Public Constructors
+
+        #region Public Events
+
+        public event EventHandler<IStonksCommand> CommandReceived;
+
+        #endregion Public Events
+
+        #region Private Methods
 
         private void Connect()
         {
@@ -41,20 +51,25 @@ namespace StonksBotProject.Communication.Discord
             _connection.MessageCreated += DiscordMessageReceived;
         }
 
+        private void Disconnect()
+        {
+            _connection.Dispose();
+        }
+
         private Task DiscordMessageReceived(DiscordClient sender, MessageCreateEventArgs e)
         {
             /*
-             * A message for the stonks bot from discord has to 
+             * A message for the stonks bot from discord has to
              * start with "stonks " (note the extra space at the end).
-             * This limitation is set, so that the bot does not try to 
-             * parse every message as a command and people can still 
+             * This limitation is set, so that the bot does not try to
+             * parse every message as a command and people can still
              * talk in the channel.
              */
             var discordCommandRegex = @"^(stonks )(.+)";
             var regex = new Regex(discordCommandRegex);
             var regexResult = regex.Match(e.Message.Content);
 
-            if (e.Message.MessageType != MessageType.Default || !regexResult.Success)
+            if(e.Message.MessageType != MessageType.Default || !regexResult.Success)
             {
                 return Task.CompletedTask;
             }
@@ -68,5 +83,7 @@ namespace StonksBotProject.Communication.Discord
             CommandReceived?.Invoke(this, new DiscordStonksCommand(_connection, e.Channel, commandText));
             return Task.CompletedTask;
         }
+
+        #endregion Private Methods
     }
 }

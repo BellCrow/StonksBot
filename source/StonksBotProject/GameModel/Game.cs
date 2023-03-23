@@ -4,20 +4,42 @@ namespace StonksBotProject.GameModel
 {
     internal class WorldInterface
     {
-        List<Company> _companies = new List<Company>
+        #region Private Fields
+
+        private const string BuyCommand = "buy";
+
+        private const string InspectPlayerCommand = "inspectp";
+
+        private const string ListCompaniesCommand = "listc";
+
+        private const string ListPlayersCommand = "listp";
+
+        private const string NextCommand = "next";
+
+        private const string SellCommand = "sell";
+
+        private readonly IStonksCommandSource _commandSource;
+
+        private readonly IEventCommunicator _eventCommunicator;
+
+        private List<Company> _companies = new List<Company>
         {
             new Company("Teslor",100,250),
             new Company("Macrohard",200,50),
         };
 
-        List<Player> _player = new List<Player>
+        private CompanyPriceChanger _companyPriceChanger;
+
+        private List<Player> _player = new List<Player>
         {
             new Player("tim", 2000),
             new Player("eve", 2500),
             new Player("liz", 1500),
         };
 
-        CompanyPriceChanger _companyPriceChanger;
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public WorldInterface(IStonksCommandSource commandSource, IEventCommunicator eventCommunicator)
         {
@@ -28,14 +50,9 @@ namespace StonksBotProject.GameModel
             _commandSource.CommandReceived += (_, com) => HandleCommand(com);
         }
 
-        const string ListPlayersCommand = "listp";
-        const string InspectPlayerCommand = "inspectp";
-        const string ListCompaniesCommand = "listc";
-        const string BuyCommand = "buy";
-        const string SellCommand = "sell";
-        const string NextCommand = "next";
-        private readonly IStonksCommandSource _commandSource;
-        private readonly IEventCommunicator _eventCommunicator;
+        #endregion Public Constructors
+
+        #region Public Methods
 
         public void HandleCommand(IStonksCommand command)
         {
@@ -114,8 +131,8 @@ namespace StonksBotProject.GameModel
                     command.CommunicateResult($"Error: The command {commandToken} is not recognized");
                     break;
             }
-
-
         }
+
+        #endregion Public Methods
     }
 }
