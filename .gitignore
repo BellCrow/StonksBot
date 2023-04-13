@@ -354,3 +354,6 @@ MigrationBackup/
 
 #hide all the files that might contain tokens for apis
 *.token
+
+#hide vscode folders
+.vscode/

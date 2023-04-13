@@ -8,18 +8,16 @@ namespace StonksBotProject.Communication.Discord
     internal class DiscordStonksCommand : IStonksCommand
     {
         #region Private Fields
-
-        private readonly MessageCreateEventArgs _messageEventArgs;
-        private DiscordChannel _channel;
-        private DiscordClient _connection;
+        private readonly DiscordChannel _channel;
+        private readonly DiscordClient _connection;
 
         #endregion Private Fields
 
         #region Public Constructors
 
-        public DiscordStonksCommand(DiscordClient connection, DiscordChannel channel, string commandText)
+        public DiscordStonksCommand(IDiscordConnection communicater, DiscordChannel channel, string commandText)
         {
-            _connection = connection;
+            _connection = communicater.Connection;
             _channel = channel;
             CommandText = commandText;
         }

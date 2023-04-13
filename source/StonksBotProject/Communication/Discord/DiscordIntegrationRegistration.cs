@@ -10,8 +10,9 @@ namespace StonksBotProject.Communication.Discord
 
         internal static void Register(IServiceCollection registerInto)
         {
-            registerInto.AddSingleton<IStonksCommandSource, ConsoleStonksCommandSource>();
-            registerInto.AddSingleton<IEventCommunicator, ConsoleEventCommunicator>();
+            registerInto.AddSingleton<IDiscordConnection, DiscordConnection>();
+            registerInto.AddSingleton<IStonksCommandSource, DiscordCommandSource>();
+            registerInto.AddSingleton<IEventCommunicator, DiscordEventCommunicator>();
         }
 
         #endregion Internal Methods

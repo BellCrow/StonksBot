@@ -8,25 +8,14 @@ namespace StonksBotProject.Communication.Discord
 {
     internal class DiscordCommandSource : IStonksCommandSource
     {
-        #region Private Fields
-
-        private readonly IHostApplicationLifetime _applicationLifetime;
-
-        private DiscordClient _connection;
-
-        private string _discordToken;
-
-        #endregion Private Fields
-
         #region Public Constructors
+        private readonly IDiscordConnection _discordConnection;
 
-        public DiscordCommandSource(IHostApplicationLifetime applicationLifetime)
+        public DiscordCommandSource(IHostApplicationLifetime applicationLifetime, IDiscordConnection discordConnection)
         {
-            _applicationLifetime = applicationLifetime ?? throw new ArgumentNullException(nameof(applicationLifetime));
-            _applicationLifetime.ApplicationStarted.Register(Connect);
-            _applicationLifetime.ApplicationStopping.Register(Disconnect);
-            //TODO move this to another place
-            _discordToken = File.ReadAllText("discordToken.token");
+            _discordConnection = discordConnection ?? throw new ArgumentNullException(nameof(discordConnection));
+            applicationLifetime.ApplicationStopping.Register(OnApplicationShuttingDown);
+            discordConnection.Connection.MessageCreated += DiscordMessageReceived;
         }
 
         #endregion Public Constructors
@@ -39,21 +28,9 @@ namespace StonksBotProject.Communication.Discord
 
         #region Private Methods
 
-        private void Connect()
+        private void OnApplicationShuttingDown()
         {
-            _connection = new DiscordClient(new DiscordConfiguration()
-            {
-                Token = _discordToken,
-                TokenType = TokenType.Bot,
-                Intents = DiscordIntents.AllUnprivileged | DiscordIntents.MessageContents
-            });
-            _connection.ConnectAsync().GetAwaiter().GetResult();
-            _connection.MessageCreated += DiscordMessageReceived;
-        }
-
-        private void Disconnect()
-        {
-            _connection.Dispose();
+            _discordConnection.Connection.MessageCreated -= DiscordMessageReceived;
         }
 
         private Task DiscordMessageReceived(DiscordClient sender, MessageCreateEventArgs e)
@@ -69,7 +46,7 @@ namespace StonksBotProject.Communication.Discord
             var regex = new Regex(discordCommandRegex);
             var regexResult = regex.Match(e.Message.Content);
 
-            if(e.Message.MessageType != MessageType.Default || !regexResult.Success)
+            if (e.Message.MessageType != MessageType.Default || !regexResult.Success)
             {
                 return Task.CompletedTask;
             }
@@ -80,7 +57,7 @@ namespace StonksBotProject.Communication.Discord
             //TODO: rework the command creation so the
             //message author is automatically used
             //if the command requires a user
-            CommandReceived?.Invoke(this, new DiscordStonksCommand(_connection, e.Channel, commandText));
+            CommandReceived?.Invoke(this, new DiscordStonksCommand(_discordConnection, e.Channel, commandText));
             return Task.CompletedTask;
         }
 
