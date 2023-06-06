@@ -14,10 +14,11 @@ namespace StonksBotProject
             Host.CreateDefaultBuilder().ConfigureServices((context, services) =>
             {
                 DiscordIntegrationRegistration.Register(services);
-
+                
+                services.AddSingleton<WorldEventScheduler>();
                 services.AddSingleton<WorldInterface>();
-
                 services.AddHostedService<GameService>();
+
             }).Build().Run();
         }
 

@@ -8,14 +8,16 @@ namespace StonksBotProject
         #region Private Fields
 
         private readonly WorldInterface _game;
+        private readonly WorldEventScheduler _eventScheduler;
 
         #endregion Private Fields
 
         #region Public Constructors
 
-        public GameService(WorldInterface game)
+        public GameService(WorldInterface game, WorldEventScheduler eventScheduler)
         {
             _game = game;
+            _eventScheduler = eventScheduler;
         }
 
         #endregion Public Constructors

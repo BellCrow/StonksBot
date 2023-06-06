@@ -1,10 +1,13 @@
 using DSharpPlus;
+using DSharpPlus.EventArgs;
 
 namespace StonksBotProject.Communication.Discord
 {
-    public interface IDiscordConnection
+    internal interface IDiscordConnection
     {
-        public DiscordClient Connection {get;}
+        void SendMessage(string message);
+
+        event EventHandler<MessageCreateEventArgs> MessageReceived;
         
     }
 }
