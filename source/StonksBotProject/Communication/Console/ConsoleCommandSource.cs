@@ -6,17 +6,12 @@ namespace StonksBotProject.Communication.Console
 {
     internal class ConsoleStonksCommandSource : IStonksCommandSource
     {
-        #region Private Fields
 
         private readonly IHostApplicationLifetime _appLifeTime;
 
         private readonly ILogger<ConsoleStonksCommand> _logger;
 
         private Task _receiveTask;
-
-        #endregion Private Fields
-
-        #region Public Constructors
 
         public ConsoleStonksCommandSource(IHostApplicationLifetime appLifeTime, ILogger<ConsoleStonksCommand> logger)
         {
@@ -25,19 +20,11 @@ namespace StonksBotProject.Communication.Console
             _appLifeTime.ApplicationStarted.Register(() => StartReceiving());
         }
 
-        #endregion Public Constructors
-
-        #region Public Events
-
         public event EventHandler<IStonksCommand> CommandReceived;
-
-        #endregion Public Events
-
-        #region Private Methods
 
         private Task StartReceiving()
         {
-            if(_receiveTask != null)
+            if (_receiveTask != null)
             {
                 return _receiveTask;
             }
@@ -49,16 +36,16 @@ namespace StonksBotProject.Communication.Console
                  * initialization does not interfere with the game loop. This is Not a good solution.
                 */
                 Task.Delay(1000).ConfigureAwait(false).GetAwaiter().GetResult();
-                while(!_appLifeTime.ApplicationStopping.IsCancellationRequested)
+                while (!_appLifeTime.ApplicationStopping.IsCancellationRequested)
                 {
                     System.Console.Write("Please enter a command:");
                     var commandText = System.Console.ReadLine();
-                    if(commandText == null)
+                    if (commandText == null)
                     {
                         _logger.LogInformation("\nApplication shutdown request registered. Shutting down...");
                         break;
                     }
-                    else if(!string.IsNullOrWhiteSpace(commandText))
+                    else if (!string.IsNullOrWhiteSpace(commandText))
                     {
                         CommandReceived?.Invoke(this, new ConsoleStonksCommand(commandText));
                     }
@@ -66,7 +53,5 @@ namespace StonksBotProject.Communication.Console
             });
             return _receiveTask;
         }
-
-        #endregion Private Methods
     }
 }
