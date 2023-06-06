@@ -6,8 +6,6 @@ namespace StonksBotProject.Communication.Discord
 {
     internal static class DiscordIntegrationRegistration
     {
-        #region Internal Methods
-
         internal static void Register(IServiceCollection registerInto)
         {
             registerInto.AddSingleton<IDiscordConnection, DiscordConnection>();
@@ -15,6 +13,5 @@ namespace StonksBotProject.Communication.Discord
             registerInto.AddSingleton<IEventCommunicator, DiscordEventCommunicator>();
         }
 
-        #endregion Internal Methods
     }
 }

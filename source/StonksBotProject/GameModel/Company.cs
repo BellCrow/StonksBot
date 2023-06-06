@@ -2,7 +2,6 @@
 {
     internal class Company
     {
-        #region Public Constructors
 
         public Company(string name, int initialStockCount, int initialPrice)
         {
@@ -11,19 +10,11 @@
             Price = initialPrice;
         }
 
-        #endregion Public Constructors
-
-        #region Public Properties
-
         public string Name { get; }
 
         public int Price { get; private set; }
 
         public int StockCount { get; private set; }
-
-        #endregion Public Properties
-
-        #region Public Methods
 
         public void BuyStock(int amount)
         {
@@ -51,7 +42,5 @@
             }
             Price = newPrice;
         }
-
-        #endregion Public Methods
     }
 }

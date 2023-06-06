@@ -7,8 +7,6 @@ namespace StonksBotProject
 {
     internal class Program
     {
-        #region Private Methods
-
         private static void Main(string[] args)
         {
             Host.CreateDefaultBuilder().ConfigureServices((context, services) =>
@@ -21,7 +19,5 @@ namespace StonksBotProject
 
             }).Build().Run();
         }
-
-        #endregion Private Methods
     }
 }

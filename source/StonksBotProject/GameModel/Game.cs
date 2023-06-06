@@ -4,8 +4,7 @@ namespace StonksBotProject.GameModel
 {
     internal class WorldInterface
     {
-        #region Private Fields
-
+        
         private const string BuyCommand = "buy";
 
         private const string InspectPlayerCommand = "inspectp";
@@ -36,11 +35,7 @@ namespace StonksBotProject.GameModel
             new Player("eve", 2500),
             new Player("liz", 1500),
         };
-
-        #endregion Private Fields
-
-        #region Public Constructors
-
+        
         public WorldInterface(IStonksCommandSource commandSource, IEventCommunicator eventCommunicator)
         {
             //TODO: make this a dependency
@@ -49,10 +44,6 @@ namespace StonksBotProject.GameModel
             _eventCommunicator = eventCommunicator ?? throw new ArgumentNullException(nameof(eventCommunicator));
             _commandSource.CommandReceived += (_, com) => HandleCommand(com);
         }
-
-        #endregion Public Constructors
-
-        #region Public Methods
 
         public void HandleCommand(IStonksCommand command)
         {
@@ -132,7 +123,5 @@ namespace StonksBotProject.GameModel
                     break;
             }
         }
-
-        #endregion Public Methods
     }
 }

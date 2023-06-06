@@ -8,7 +8,7 @@ namespace StonksBotProject.Communication.Discord
 {
     internal class DiscordCommandSource : IStonksCommandSource
     {
-        #region Public Constructors
+        
         private readonly IDiscordConnection _discordConnection;
 
         public DiscordCommandSource(IHostApplicationLifetime applicationLifetime, IDiscordConnection discordConnection)
@@ -18,15 +18,7 @@ namespace StonksBotProject.Communication.Discord
             discordConnection.MessageReceived += DiscordMessageReceived;
         }
 
-        #endregion Public Constructors
-
-        #region Public Events
-
         public event EventHandler<IStonksCommand>? CommandReceived;
-
-        #endregion Public Events
-
-        #region Private Methods
 
         private void OnApplicationShuttingDown()
         {
@@ -35,7 +27,7 @@ namespace StonksBotProject.Communication.Discord
 
         private void DiscordMessageReceived(object? sender, MessageCreateEventArgs e)
         {
-            if(sender is not IDiscordConnection senderConnection)
+            if (sender is not IDiscordConnection senderConnection)
             {
                 throw new ArgumentException("Send object to discrod message received handler, that is not a discord connection");
             }
@@ -63,7 +55,6 @@ namespace StonksBotProject.Communication.Discord
             //if the command requires a user
             CommandReceived?.Invoke(this, new DiscordStonksCommand(_discordConnection, commandText));
         }
-
-        #endregion Private Methods
+        
     }
 }

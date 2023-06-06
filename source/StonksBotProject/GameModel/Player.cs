@@ -2,13 +2,7 @@
 {
     internal class Player
     {
-        #region Private Fields
-
         private readonly List<(Company company, int amount)> _stocks = new();
-
-        #endregion Private Fields
-
-        #region Public Constructors
 
         public Player(string identifier, int initialMoney)
         {
@@ -16,17 +10,11 @@
             Money = initialMoney;
         }
 
-        #endregion Public Constructors
-
-        #region Public Properties
-
         public string Identifier { get; }
+
         public int Money { get; }
+
         public IReadOnlyList<(Company company, int amount)> Stocks => _stocks;
-
-        #endregion Public Properties
-
-        #region Public Methods
 
         public void AddStock(Company company, int amount)
         {
@@ -58,7 +46,5 @@
             }
             _stocks.Add((company, alreadyOwnedStockCount - amount));
         }
-
-        #endregion Public Methods
     }
 }
