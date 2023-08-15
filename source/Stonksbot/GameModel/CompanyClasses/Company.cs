@@ -1,8 +1,7 @@
 ﻿namespace Stonksbot.GameModel.CompanyClasses;
 
-internal class Company
+public class Company
 {
-
     public Company(string name, int initialStockCount, int initialPrice)
     {
         Name = name;
@@ -16,7 +15,7 @@ internal class Company
 
     public int StockCount { get; private set; }
 
-    public void BuyStock(int amount)
+    public void SubtractStock(int amount)
     {
         if(amount > StockCount)
         {
@@ -25,7 +24,7 @@ internal class Company
         StockCount -= amount;
     }
 
-    public void SellStock(int amount)
+    public void AddStock(int amount)
     {
         if(amount <= 0)
         {

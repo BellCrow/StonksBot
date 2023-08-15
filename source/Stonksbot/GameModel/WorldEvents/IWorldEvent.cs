@@ -4,5 +4,5 @@ namespace Stonksbot.GameModel.WorldEvents;
 
 internal interface IWorldEvent
 {
-    void Tick(WorldInterface worldInterface, IEventCommunicator eventCommunicator);
+    void Tick(BaseData baseData, IEventCommunicator eventCommunicator);
 }

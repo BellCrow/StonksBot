@@ -18,9 +18,8 @@ internal class Program
             services.AddSingleton<Playerbase>();
             services.AddSingleton<Stockmarket>();
             services.AddSingleton<WorldEventScheduler>();
-            services.AddSingleton<WorldInterface>();
+            services.AddSingleton<BaseData>();
             services.AddHostedService<GameService>();
-
         }).Build().Run();
     }
 }

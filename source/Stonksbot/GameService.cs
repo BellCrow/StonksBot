@@ -5,13 +5,13 @@ namespace StonksBot;
 
 internal class GameService : BackgroundService
 {
-    private readonly WorldInterface _game;
+    private readonly BaseData _baseData;
     
     private readonly WorldEventScheduler _eventScheduler;
 
-    public GameService(WorldInterface game, WorldEventScheduler eventScheduler)
+    public GameService(BaseData baseData, WorldEventScheduler eventScheduler)
     {
-        _game = game;
+        _baseData = baseData;
         _eventScheduler = eventScheduler;
     }
 

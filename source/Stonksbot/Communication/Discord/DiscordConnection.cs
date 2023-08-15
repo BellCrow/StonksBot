@@ -3,54 +3,53 @@ using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using Microsoft.Extensions.Hosting;
 
-namespace Stonksbot.Communication.Discord
+namespace Stonksbot.Communication.Discord;
+
+public class DiscordConnection: IDiscordConnection
 {
-    public class DiscordConnection: IDiscordConnection
+    private DiscordClient? _connection;
+
+    private DiscordChannel? _communicationChannel;
+
+    public DiscordConnection(IHostApplicationLifetime applicationLifetime)
     {
-        private DiscordClient? _connection;
+        applicationLifetime.ApplicationStarted.Register(Connect);
+        applicationLifetime.ApplicationStopping.Register(Disconnect);
+    }
 
-        private DiscordChannel? _communicationChannel;
+    public event EventHandler<MessageCreateEventArgs>? MessageReceived;
 
-        public DiscordConnection(IHostApplicationLifetime applicationLifetime)
+    private void Connect()
+    {
+        var pathToTokenFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "discord.token");
+        var discordToken = File.ReadLines(pathToTokenFile).First();
+        _connection = new DiscordClient(new DiscordConfiguration()
         {
-            applicationLifetime.ApplicationStarted.Register(Connect);
-            applicationLifetime.ApplicationStopping.Register(Disconnect);
-        }
+            Token = discordToken,
+            TokenType = TokenType.Bot,
+            Intents = DiscordIntents.AllUnprivileged | DiscordIntents.MessageContents
+        });
+        _connection.ConnectAsync().GetAwaiter().GetResult();
 
-        public event EventHandler<MessageCreateEventArgs>? MessageReceived;
+        //for now this id is static for the channel on my test server
+        const ulong eventCommunicationChannelId = 939828414704132176;
+        _communicationChannel = _connection.GetChannelAsync(eventCommunicationChannelId).GetAwaiter().GetResult();
 
-        private void Connect()
-        {
-            var pathToTokenFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "discord.token");
-            var discordToken = File.ReadLines(pathToTokenFile).First();
-            _connection = new DiscordClient(new DiscordConfiguration()
-            {
-                Token = discordToken,
-                TokenType = TokenType.Bot,
-                Intents = DiscordIntents.AllUnprivileged | DiscordIntents.MessageContents
-            });
-            _connection.ConnectAsync().GetAwaiter().GetResult();
+        _connection.MessageCreated += OnMessageReceived;
+    }
 
-            //for now this id is static for the channel on my test server
-            const ulong eventCommunicationChannelId = 939828414704132176;
-            _communicationChannel = _connection.GetChannelAsync(eventCommunicationChannelId).GetAwaiter().GetResult();
+    private Task OnMessageReceived(DiscordClient sender, MessageCreateEventArgs e)
+    {
+        return Task.Run(() => MessageReceived?.Invoke(this,e));
+    }
 
-            _connection.MessageCreated += OnMessageReceived;
-        }
+    private void Disconnect()
+    {
+        _connection?.Dispose();
+    }
 
-        private Task OnMessageReceived(DiscordClient sender, MessageCreateEventArgs e)
-        {
-            return Task.Run(() => MessageReceived?.Invoke(this,e));
-        }
-
-        private void Disconnect()
-        {
-            _connection?.Dispose();
-        }
-
-        public void SendMessage(string message)
-        {
-            _connection.SendMessageAsync(_communicationChannel,message).GetAwaiter().GetResult();
-        }
+    public void SendMessage(string message)
+    {
+        _connection?.SendMessageAsync(_communicationChannel,message).GetAwaiter().GetResult();
     }
 }

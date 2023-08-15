@@ -1,6 +1,6 @@
 ﻿namespace Stonksbot.GameModel.CompanyClasses;
 
-internal class Stockmarket
+public class Stockmarket
 {
     private List<Company> _companies = new()
     {

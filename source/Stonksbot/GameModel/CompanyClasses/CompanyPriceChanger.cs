@@ -2,7 +2,6 @@
 
 internal class CompanyPriceChanger
 {
-
     private readonly IReadOnlyList<Company> _companies;
 
     private Random _rand = new Random();
@@ -25,5 +24,4 @@ internal class CompanyPriceChanger
         float multiplier = (float)Math.Min(1d, _rand.NextDouble() + 0.1);
         return multiplier;
     }
-    
 }

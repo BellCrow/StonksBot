@@ -1,7 +1,6 @@
-﻿namespace Stonksbot.Communication.Interface
+﻿namespace Stonksbot.Communication.Interface;
+
+public interface IEventCommunicator
 {
-    internal interface IEventCommunicator
-    {
-        void CommunicateEvent(string eventText);
-    }
+    void CommunicateEvent(string eventText);
 }

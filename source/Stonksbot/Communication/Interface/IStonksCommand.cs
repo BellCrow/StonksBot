@@ -1,9 +1,8 @@
-﻿namespace Stonksbot.Communication.Interface
-{
-    internal interface IStonksCommand
-    {
-        public string CommandText { get; }
+﻿using Stonksbot.GameModel;
 
-        public void CommunicateResult(string result);
-    }
+namespace Stonksbot.Communication.Interface;
+
+public interface IStonksCommand
+{
+    public void Execute(BaseData worldInterface);
 }

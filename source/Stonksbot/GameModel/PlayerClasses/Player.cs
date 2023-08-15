@@ -1,7 +1,7 @@
 ﻿using Stonksbot.GameModel.CompanyClasses;
 namespace Stonksbot.GameModel.PlayerClasses;
 
-internal class Player
+public class Player
 {
     private readonly List<(Company company, int amount)> _stocks = new();
 

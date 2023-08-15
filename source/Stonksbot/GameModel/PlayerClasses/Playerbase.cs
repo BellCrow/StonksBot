@@ -1,6 +1,6 @@
 ﻿namespace Stonksbot.GameModel.PlayerClasses;
 
-internal class Playerbase
+public class Playerbase
 {
     private List<Player> _player = new List<Player>
         {
@@ -9,7 +9,7 @@ internal class Playerbase
             new Player("liz", 1500),
         };
 
-    public Playerbase(IEnumerable<Player> player) => _player = player.ToList();
+    public Playerbase(){}
 
     public IEnumerable<Player> Player => _player;
 
